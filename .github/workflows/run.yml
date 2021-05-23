@@ -24,7 +24,7 @@ jobs:
       run: powershell Invoke-WebRequest https://www.uvnc.eu/download/132/UltraVNC_1_3_2_X64_Setup.exe -OutFile ultravnc.exe
     - run: .\ultravnc.exe /VERYSILENT /LOADINF="windows.inf"
     - run: dir
-    - run: timeout /t 60 /nobreak
+    - run: Start-Sleep -s 15
     - run: dir
     - run: sc stop uvnc_service
     - run: Set-LocalUser -Name "vnc" -Password (ConvertTo-SecureString -AsPlainText "password" -Force)
@@ -32,7 +32,7 @@ jobs:
     - name: Copy Configs and Start
       run: del .\ultravnc\ultravnc.ini
     - run: copy ultravnc.ini .\ultravnc\ultravnc.ini
-    - run: timeout /t 15 /nobreak
+    - run: Start-Sleep -s 15
     - run: sc start uvnc_service
     # - run: |
           # netsh firewall add portopening TCP 5900 vnc5900
