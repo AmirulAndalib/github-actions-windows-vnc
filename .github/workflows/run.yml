@@ -42,7 +42,6 @@ jobs:
 
 
 
-    - name: Run services
     - run: Start-Sleep -s 15
 #    - run: sc start uvnc_service
     # - run: |
