@@ -26,14 +26,25 @@ jobs:
     - run: dir
     - run: Start-Sleep -s 15
     - run: dir
-    - run: sc stop uvnc_service
+
+    #- run: sc stop uvnc_service
+
     - run: Set-LocalUser -Name "vnc" -Password (ConvertTo-SecureString -AsPlainText "password" -Force)
 
     - name: Copy Configs and Start
       run: del .\ultravnc\ultravnc.ini
     - run: copy ultravnc.ini .\ultravnc\ultravnc.ini
+
+
+    - run: sc queryex type=service state=all 
+
+    - run: sc queryex type=service state=all | find /i "SERVICE_NAME:"
+
+
+
+    - name: Run services
     - run: Start-Sleep -s 15
-    - run: sc start uvnc_service
+#    - run: sc start uvnc_service
     # - run: |
           # netsh firewall add portopening TCP 5900 vnc5900
           # netsh firewall add portopening TCP 5800 vnc5800
