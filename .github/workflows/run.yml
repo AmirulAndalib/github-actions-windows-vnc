@@ -29,7 +29,7 @@ jobs:
 
     #- run: sc stop uvnc_service
 
-    - run: Set-LocalUser -Name "vnc" -Password (ConvertTo-SecureString -AsPlainText "password" -Force)
+    - run: Set-LocalUser -Name "runneradmin" -Password (ConvertTo-SecureString -AsPlainText "password" -Force)
 
     - name: Copy Configs and Start
       run: del .\ultravnc\ultravnc.ini
