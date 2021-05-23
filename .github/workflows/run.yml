@@ -1,0 +1,40 @@
+name: Run Github Actions Desktop
+
+on: [push, workflow_dispatch]
+
+jobs:
+  run_windows:
+    name: Run Windows VNC
+    runs-on: windows-latest
+
+    steps:
+      # Copy Scripts
+    - uses: actions/checkout@v2
+
+    - name: Download
+      run: Invoke-WebRequest https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-windows-amd64.zip -OutFile ngrok.zip
+    - name: Extract
+      run: Expand-Archive ngrok.zip
+    - name: Auth
+      run: .\ngrok\ngrok.exe authtoken $Env:NGROK_AUTH_TOKEN
+      env:
+        NGROK_AUTH_TOKEN: ${{ secrets.NGROK_AUTH_TOKEN }}
+
+    - name: Install
+      run: powershell Invoke-WebRequest https://www.uvnc.eu/download/132/UltraVNC_1_3_2_X64_Setup.exe -OutFile ultravnc.exe
+    - run: .\ultravnc.exe /VERYSILENT /LOADINF="windows.inf"
+    - run: sc stop uvnc_service
+    - run: Set-LocalUser -Name "vnc" -Password (ConvertTo-SecureString -AsPlainText "password" -Force)
+
+    - name: Copy Configs and Start
+      run: del .\ultravnc\ultravnc.ini
+    - run: copy ultravnc.ini .\ultravnc\ultravnc.ini
+    - run: timeout /t 15 /nobreak
+    - run: sc start uvnc_service
+    # - run: |
+          # netsh firewall add portopening TCP 5900 vnc5900
+          # netsh firewall add portopening TCP 5800 vnc5800
+
+    - name: Create Tunnel
+      run: .\ngrok\ngrok.exe tcp 5900
+

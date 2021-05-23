@@ -1,0 +1,8 @@
+[Setup]
+Lang=en
+Dir=.\ultravnc
+Group=UltraVNC
+NoIcons=0
+SetupType=full
+Components=ultravnc_server,ultravnc_viewer,ultravnc_repeater
+Tasks=installdriver,installservice,startservice,associate
