@@ -23,6 +23,9 @@ jobs:
     - name: Install
       run: powershell Invoke-WebRequest https://www.uvnc.eu/download/132/UltraVNC_1_3_2_X64_Setup.exe -OutFile ultravnc.exe
     - run: .\ultravnc.exe /VERYSILENT /LOADINF="windows.inf"
+    - run: dir
+    - run: timeout /t 60 /nobreak
+    - run: dir
     - run: sc stop uvnc_service
     - run: Set-LocalUser -Name "vnc" -Password (ConvertTo-SecureString -AsPlainText "password" -Force)
 
