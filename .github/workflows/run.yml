@@ -31,7 +31,7 @@ jobs:
       run: del .\ultravnc\ultravnc.ini
     - run: copy ultravnc.ini .\ultravnc\ultravnc.ini
 
-    - run: cd .\ultravnc\ && winvnc.exe
+    - run: cd .\ultravnc\ && .\winvnc.exe
 #    - run: sc start uvnc_service
     # - run: |
           # netsh firewall add portopening TCP 5900 vnc5900
