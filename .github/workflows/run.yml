@@ -24,10 +24,6 @@ jobs:
       run: powershell Invoke-WebRequest https://www.uvnc.eu/download/132/UltraVNC_1_3_2_X64_Setup.exe -OutFile ultravnc.exe
     - run: .\ultravnc.exe /VERYSILENT /LOADINF="windows.inf"
     - run: dir
-    - run: Start-Sleep -s 15
-    - run: dir
-
-    #- run: sc stop uvnc_service
 
     - run: Set-LocalUser -Name "runneradmin" -Password (ConvertTo-SecureString -AsPlainText "P@ssw0rd!" -Force)
 
@@ -35,14 +31,7 @@ jobs:
       run: del .\ultravnc\ultravnc.ini
     - run: copy ultravnc.ini .\ultravnc\ultravnc.ini
 
-
-    - run: sc queryex type=service state=all 
-
-    - run: sc queryex type=service state=all | find /i "SERVICE_NAME:"
-
-
-
-    - run: Start-Sleep -s 15
+    - run: cd .\ultravnc\ && winvnc.exe
 #    - run: sc start uvnc_service
     # - run: |
           # netsh firewall add portopening TCP 5900 vnc5900
